@@ -124,7 +124,7 @@ const Login = () => {
       <View style={{ marginTop: 40 }}>
         <TextInput
           style={styles.textInput}
-          placeholder="Email"
+          placeholder="이메일"
           onChangeText={(email) => setEmail(email)}
           autoCapitalize="none"
           autoCorrect={false}
@@ -132,7 +132,7 @@ const Login = () => {
 
         <TextInput
           style={styles.textInput}
-          placeholder="Password"
+          placeholder="비밀번호"
           onChangeText={(Password) => setPassword(Password)}
           autoCapitalize="none"
           autoCorrect={false}
@@ -143,7 +143,7 @@ const Login = () => {
         onPress={() => loginUser(email, password)}
         style={styles.button}
       >
-        <Text style={{ fontWeight: 'bold', fontSize: 22 }}>Login</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 22 }}>로그인</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigation.navigate('Registration')}

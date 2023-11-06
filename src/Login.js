@@ -109,10 +109,9 @@ const Login = () => {
   loginUser = async (email, password) => {
     try {
       await signInWithEmailAndPassword(authentication, email, password);
-      // Use 'signInWithEmailAndPassword' on the 'authentication' object
       alert("로그인 됐습니다");
     } catch (error) {
-      alert(error.message);
+        alert("아이디이나 비밀번호가 다릅니다");
     }
   };  
   

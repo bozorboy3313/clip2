@@ -1,20 +1,188 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import React,{ useState, useEffect } from "react";
+// import { firebase  } from './config';
 
-export default function App() {
+// import Login from './src/Login';
+// import Registration from './src/Registration';
+// import Dashboard from './src/Dashboard';
+// import Header from './componentst/header';
+
+// const Stack = createNativeStackNavigator();
+// const auth = firebase.auth();
+
+
+// function App(){
+//   const [initializing, setInitializing] =useState(true);
+//   const [user, setUser] = useState();
+
+//   function onAuthStateChanged(user){
+//     setUser(user);
+//     if (initializing) setInitializing(false);
+
+//   }
+//   useEffect(() =>{
+//     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+//     return subscriber;
+
+//   }, []);
+//   if (initializing) return null;
+
+//   if (!user){
+//     return(
+//       <Stack.Navigator>
+//         <Stack.Screen
+//         name="Login" 
+//         component={Login}
+//         options={{
+//           headerTitle: () => <Header name="CLIP"/>,
+//           headerStyle: {
+//             height:150,
+//             borderBottomLeftRadius:50,
+//             borderBottomRightRadius:50,
+//             backgroundColor:'#9905DB',
+//             shadowColor:'#000',
+//             elevation:25
+
+//           }
+        
+//         }}
+//         />
+//         <Stack.Screen
+//         name="Registration" 
+//         component={Registration}
+//         options={{
+//           headerTitle: () => <Header name="CLIP"/>,
+//           headerStyle: {
+//             height:150,
+//             borderBottomLeftRadius:50,
+//             borderBottomRightRadius:50,
+//             backgroundColor:'#9905DB',
+//             shadowColor:'#000',
+//             elevation:25
+            
+//           }
+        
+//         }}
+//         />
+//       </Stack.Navigator>
+//     )
+//   }
+//   return(
+//     <Stack.Navigator>
+// <Stack.Screen
+//         name="dashboard" 
+//         component={dashboard}
+//         options={{
+//           headerTitle: () => <Header name="dashbpard"/>,
+//           headerStyle: {
+//             height:150,
+//             borderBottomLeftRadius:50,
+//             borderBottomRightRadius:50,
+//             backgroundColor:'#9905DB',
+//             shadowColor:'#000',
+//             elevation:25
+            
+//           }
+        
+//         }}
+//         />
+//     </Stack.Navigator>
+//   )
+// }
+// export default () => {
+//   return(
+//     <NavigationContainer>
+//       <App/>
+//     </NavigationContainer>
+//   )
+// }
+
+
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { authentication } from './config'; // Check the path to your config file
+import Header from './header'; // Adjust the path to your Header component
+
+import Login from './src/Login';
+import Registration from './src/Registration';
+import Dashboard from './src/Dashboard'; // Adjust the path to your Dashboard component
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState(null);
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = authentication.onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  if (initializing) return null;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {!user ? (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerTitle: () => <Header name="CLIP" />,
+                headerStyle: {
+                  height: 150,
+                  borderBottomLeftRadius: 50,
+                  borderBottomRightRadius: 50,
+                  backgroundColor: '#9905DB',
+                  shadowColor: '#000',
+                  elevation: 25,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="Registration"
+              component={Registration}
+              options={{
+                headerTitle: () => <Header name="CLIP" />,
+                headerStyle: {
+                  height: 150,
+                  borderBottomLeftRadius: 50,
+                  borderBottomRightRadius: 50,
+                  backgroundColor: '#9905DB',
+                  shadowColor: '#000',
+                  elevation: 25,
+                },
+              }}
+            />
+          </>
+        ) : (
+          <Stack.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{
+              headerTitle: () => <Header name="Dashboard" />,
+              headerStyle: {
+                height: 150,
+                borderBottomLeftRadius: 50,
+                borderBottomRightRadius: 50,
+                backgroundColor: '#9905DB',
+                shadowColor: '#000',
+                elevation: 25,
+              },
+            }}
+          />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
